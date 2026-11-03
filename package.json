@@ -1,0 +1,13 @@
+{
+  "name": "SSIS-repo-tooling",
+  "private": true,
+  "version": "1.0.0",
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "husky": "^9.1.7"
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
+}
