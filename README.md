@@ -56,7 +56,7 @@ module.exports = {
   extends: [`@commitlint/config-conventional`],
   // The below is optional to either if additional specified scopes are not used
   rules: {
-    'scope-enum': [1, "always", ['exampleScope1'],['exampleScope2'],['exampleScope3']],
+    'scope-enum': [1, "always", ['exampleScope1','exampleScope2','exampleScope3']],
   },
 };
 ```
@@ -93,7 +93,7 @@ name: Conventional Commits
 
 on:
   pull_request:
-    types:[opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened]
 
 permissions:
   contents: read
@@ -113,31 +113,27 @@ jobs:
           cache: npm
 
       - run: npm ci
+      
+      - name: Lint every commit in the PR # can be dropped if using squash merge
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
-      -name: Lint every commit in the PR # can be dropped if using squash merge
-        run: >
-          npx commitlint
-            --from ${{ github.event.pull_request.base.sha }}
-            --to ${{ github.event.pull_request.base.sha }}
-            --verbose
+  pr-title:
+    name: Lint pull request title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-pr-title:
-  name: Lint pull request title
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: npm
+      - run: npm ci
 
-    - run: npm ci
-
-    - name: Lint the pull request title
-      env:
-        PR_TITLE: ${{ github.event.pull_request.title }}
-      run: echo "$PR_TITLE | npx commitlint --verbose"
+      - name: Lint the pull request title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx commitlint --verbose
 ```
 
 ## Step 9: Test the PR title linting
