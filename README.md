@@ -27,7 +27,7 @@ Edit the `package.json` file to mark as tooling only:
 ## Step 2: Install the tools
 
 ```bash
-npm install --save-dev husky @commitlint/cli @commitlint/config-convential
+npm install --save-dev husky @commitlint/cli @commitlint/config-conventional
 ```
 
 ## Step 3: Initialise Husky
@@ -53,7 +53,7 @@ Create `commitlint.config.js` in the repo root
 
 ```js
 module.exports = {
-  extends: [`@commitlint/config-convential`],
+  extends: [`@commitlint/config-conventional`],
   // The below is optional to either if additional specified scopes are not used
   rules: {
     'scope-enum': [1, "always", ['exampleScope1'],['exampleScope2'],['exampleScope3']],
@@ -86,7 +86,7 @@ git commit --allow-empty -m "chore(docs): updated project readme"
 
 ## Step 8: Setup the GitHub Actions workflow
 
-Create a `.github/workfloes/commitlint.yml` file with the following content:
+Create a `.github/workflows/commitlint.yml` file with the following content:
 
 ```yaml
 name: Conventional Commits
